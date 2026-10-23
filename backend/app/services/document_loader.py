@@ -45,8 +45,7 @@ def load_pdf(file_path: str | Path) -> list[dict]:
 
     if not pages:
         raise ValueError(
-            "No extractable text found. "
-            "The PDF may be empty or require OCR."
+            "No extractable text found. " "The PDF may be empty or require OCR."
         )
 
     return pages

@@ -18,11 +18,7 @@ def execute_and_create_incident(db, integration):
 
     # Step 3: If there is no failure, return the result
     if not failure["failed"]:
-        return {
-            "success": True,
-            "incident_created": False,
-            "result": result
-        }
+        return {"success": True, "incident_created": False, "result": result}
 
     # Step 4: Build Incident data
     incident_data = IncidentCreate(
@@ -31,7 +27,7 @@ def execute_and_create_incident(db, integration):
         error_message=result.get("error", "API request failed"),
         status_code=result.get("status_code"),
         endpoint=integration.base_url,
-        status="OPEN"
+        status="OPEN",
     )
 
     # Step 5: Save Incident to database
@@ -42,5 +38,5 @@ def execute_and_create_incident(db, integration):
         "success": False,
         "incident_created": True,
         "failure_type": failure["failure_type"],
-        "incident": incident
+        "incident": incident,
     }

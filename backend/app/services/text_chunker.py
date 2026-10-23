@@ -9,9 +9,7 @@ def chunk_pages(
         raise ValueError("chunk_size must be greater than zero.")
 
     if overlap < 0 or overlap >= chunk_size:
-        raise ValueError(
-            "overlap must be zero or greater and less than chunk_size."
-        )
+        raise ValueError("overlap must be zero or greater and less than chunk_size.")
 
     chunks = []
 

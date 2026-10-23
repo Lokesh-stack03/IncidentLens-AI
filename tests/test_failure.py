@@ -2,10 +2,7 @@ from backend.app.services.failure_detector import detect_failure
 
 
 def test_success_response():
-    result = {
-        "success": True,
-        "status_code": 200
-    }
+    result = {"success": True, "status_code": 200}
 
     output = detect_failure(result)
 
@@ -14,10 +11,7 @@ def test_success_response():
 
 
 def test_client_error():
-    result = {
-        "success": False,
-        "status_code": 404
-    }
+    result = {"success": False, "status_code": 404}
 
     output = detect_failure(result)
 
@@ -26,10 +20,7 @@ def test_client_error():
 
 
 def test_server_error():
-    result = {
-        "success": False,
-        "status_code": 500
-    }
+    result = {"success": False, "status_code": 500}
 
     output = detect_failure(result)
 
@@ -38,10 +29,7 @@ def test_server_error():
 
 
 def test_redirect():
-    result = {
-        "success": False,
-        "status_code": 302
-    }
+    result = {"success": False, "status_code": 302}
 
     output = detect_failure(result)
 
@@ -50,10 +38,7 @@ def test_redirect():
 
 
 def test_network_error():
-    result = {
-        "success": False,
-        "status_code": None
-    }
+    result = {"success": False, "status_code": None}
 
     output = detect_failure(result)
 

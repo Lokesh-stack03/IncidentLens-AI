@@ -31,6 +31,8 @@ def test_missing_incident_does_not_call_gemini(monkeypatch):
 
     assert caught.value.status_code == 404
     fake_gemini.assert_not_called()
+
+
 def test_existing_incident_returns_analysis(monkeypatch):
     # 1. Create a fake database session.
     fake_db = Mock()
@@ -47,15 +49,9 @@ def test_existing_incident_returns_analysis(monkeypatch):
     expected_analysis = incident_router.IncidentAnalysisResponse(
         incident_id=4,
         summary="A simulated API request timed out after 10 seconds.",
-        possible_causes=[
-            "The server may have been slow to respond."
-        ],
-        troubleshooting_steps=[
-            "Check server logs around the time of the request."
-        ],
-        missing_information=[
-            "The target API endpoint."
-        ],
+        possible_causes=["The server may have been slow to respond."],
+        troubleshooting_steps=["Check server logs around the time of the request."],
+        missing_information=["The target API endpoint."],
     )
 
     # 4. Set up fake functions with predictable return values.
@@ -95,6 +91,8 @@ def test_existing_incident_returns_analysis(monkeypatch):
     # 9. Check the returned analysis.
     assert result == expected_analysis
     assert result.incident_id == 4
+
+
 @pytest.mark.parametrize("provider_code", [429, 503])
 def test_gemini_unavailable_returns_503(monkeypatch, provider_code):
     # Create a fake database session and an existing incident.
