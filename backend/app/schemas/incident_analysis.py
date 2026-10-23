@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class IncidentAnalysisResponse(BaseModel):
     incident_id: int
     summary: str

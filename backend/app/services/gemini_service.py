@@ -3,23 +3,27 @@ import json
 from google.genai import types
 from backend.app.schemas.incident_analysis import IncidentAnalysisResponse
 from backend.app.core.config import settings
-def check_gemini_connection() -> str:
-    with genai.Client(api_key=settings.GEMINI_API_KEY)as client:
-        response=client.models.generate_content(
-            model=settings.GEMINI_MODEL,
-            contents="Reply with only: Gemini connected successfully!"
 
+
+def check_gemini_connection() -> str:
+    with genai.Client(api_key=settings.GEMINI_API_KEY) as client:
+        response = client.models.generate_content(
+            model=settings.GEMINI_MODEL,
+            contents="Reply with only: Gemini connected successfully!",
         )
         if not response.text:
             raise Exception("Failed to connect to Gemini API")
         return response.text
+
+
 def analyze_incident(
     incident_id: int,
     title: str,
     error_message: str,
     status_code: int | None,
 ) -> IncidentAnalysisResponse:
-
+    if not settings.GEMINI_API_KEY:
+        raise RuntimeError("Add GEMINI_API_KEY to .env to enable AI analysis.")
     incident_data = {
         "incident_id": incident_id,
         "title": title,
@@ -58,9 +62,7 @@ If the incident is labelled simulated or a test scenario, explicitly preserve th
     if not response.text:
         raise ValueError("Gemini returned no analysis text.")
 
-    analysis = IncidentAnalysisResponse.model_validate_json(
-        response.text
-    )
+    analysis = IncidentAnalysisResponse.model_validate_json(response.text)
 
     analysis.incident_id = incident_id
 
